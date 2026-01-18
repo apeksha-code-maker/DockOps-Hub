@@ -15,18 +15,21 @@ public class MetricsServlet extends HttpServlet {
         String disk = exec("df / | tail -1 | awk '{print $5}'");
 
         out.println("{");
-        out.println("\"cpu\": \"" + cpu.trim() + "\",");
-        out.println("\"memory\": \"" + memory.trim() + "\",");
-        out.println("\"disk\": \"" + disk.trim() + "\"");
+        out.println("  \"cpu\": \"" + cpu.trim() + "\",");
+        out.println("  \"memory\": \"" + memory.trim() + "\",");
+        out.println("  \"disk\": \"" + disk.trim() + "\"");
         out.println("}");
     }
 
     private String exec(String command) {
         StringBuilder output = new StringBuilder();
         try {
-            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
+            Process p = Runtime.getRuntime().exec(
+                new String[]{"bash", "-c", command}
+            );
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()));
+                new InputStreamReader(p.getInputStream())
+            );
             String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line);
@@ -37,3 +40,4 @@ public class MetricsServlet extends HttpServlet {
         return output.toString();
     }
 }
+
