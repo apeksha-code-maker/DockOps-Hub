@@ -1,7 +1,9 @@
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
 
+@WebServlet("/metrics")
 public class MetricsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -40,4 +42,3 @@ public class MetricsServlet extends HttpServlet {
         return output.toString();
     }
 }
-
