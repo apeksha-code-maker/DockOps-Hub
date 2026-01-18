@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DockOps Hub Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #020617;
+    color: #e5e7eb;
+}
+
+header {
+    background: linear-gradient(90deg, #0ea5e9, #22c55e, #facc15);
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #020617;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.card {
+    background: #020617;
+    width: 230px;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 0 30px rgba(56,189,248,0.4);
+    text-align: center;
+    border: 1px solid #1e293b;
+}
+
+.card h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.value {
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.cpu { color: #38bdf8; }
+.memory { color: #4ade80; }
+.disk { color: #facc15; }
+
+footer {
+    margin-top: 60px;
+    text-align: center;
+    color: #94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<header>🚀 DockOps Hub – Live Linux Monitoring</header>
+
+<div class="dashboard">
+    <div class="card">
+        <h2>CPU Usage</h2>
+        <div class="value cpu" id="cpu">--</div>
+    </div>
+
+    <div class="card">
+        <h2>Memory Usage</h2>
+        <div class="value memory" id="memory">--</div>
+    </div>
+
+    <div class="card">
+        <h2>Disk Usage</h2>
+        <div class="value disk" id="disk">--</div>
+    </div>
+</div>
+
+<footer>
+    Powered by Java • Tomcat • Docker • Linux
+</footer>
+
+<script>
+async function loadMetrics() {
+    try {
+        const response = await fetch("http://localhost:8080/hello/metrics");
+        const data = await response.json();
+
+        document.getElementById("cpu").innerText = data.cpu + "%";
+        document.getElementById("memory").innerText = data.memory + "%";
+        document.getElementById("disk").innerText = data.disk;
+    } catch (e) {
+        console.log("Backend not reachable");
+    }
+}
+
+loadMetrics();
+setInterval(loadMetrics, 2000);
+</script>
+
+</body>
+</html>
