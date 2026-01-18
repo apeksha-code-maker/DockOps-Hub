@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DockOps Hub Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0f172a;
+            color: #e5e7eb;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            background: #020617;
+            font-size: 28px;
+            font-weight: bold;
+            color: #38bdf8;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #020617, #020617);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 25px rgba(56,189,248,0.15);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #38bdf8;
+        }
+
+        .value {
+            margin-top: 15px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #22c55e;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    🚀 DockOps Hub – System Dashboard
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>CPU Usage</h2>
+        <div class="value">45%</div>
+    </div>
+
+    <div class="card">
+        <h2>Memory Usage</h2>
+        <div class="value">62%</div>
+    </div>
+
+    <div class="card">
+        <h2>Disk Usage</h2>
+        <div class="value">71%</div>
+    </div>
+
+</div>
+
+<div class="footer">
+    DockOps Hub © 2026 | Linux Monitoring Platform
+</div>
+
+</body>
+</html>
