@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DockOps Hub Dashboard</title>
+<title>DockOps Hub</title>
 
 <style>
 body {
@@ -21,11 +21,37 @@ header {
     color: #020617;
 }
 
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.start { background: #22c55e; }
+.stop { background: #ef4444; }
+.refresh { background: #38bdf8; }
+
+.status {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
 .dashboard {
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 .card {
@@ -38,11 +64,6 @@ header {
     border: 1px solid #1e293b;
 }
 
-.card h2 {
-    margin-bottom: 15px;
-    font-size: 22px;
-}
-
 .value {
     font-size: 42px;
     font-weight: bold;
@@ -53,7 +74,7 @@ header {
 .disk { color: #facc15; }
 
 footer {
-    margin-top: 60px;
+    margin-top: 50px;
     text-align: center;
     color: #94a3b8;
 }
@@ -62,45 +83,66 @@ footer {
 
 <body>
 
-<header>🚀 DockOps Hub – Live Linux Monitoring</header>
+<header>🚀 DockOps Hub – Interactive Monitoring</header>
+
+<div class="controls">
+    <button class="start" onclick="startMonitoring()">Start</button>
+    <button class="stop" onclick="stopMonitoring()">Stop</button>
+    <button class="refresh" onclick="loadMetrics()">Refresh Now</button>
+</div>
+
+<div class="status" id="status">🟡 Monitoring stopped</div>
 
 <div class="dashboard">
     <div class="card">
-        <h2>CPU Usage</h2>
+        <h2>CPU</h2>
         <div class="value cpu" id="cpu">--</div>
     </div>
-
     <div class="card">
-        <h2>Memory Usage</h2>
+        <h2>Memory</h2>
         <div class="value memory" id="memory">--</div>
     </div>
-
     <div class="card">
-        <h2>Disk Usage</h2>
+        <h2>Disk</h2>
         <div class="value disk" id="disk">--</div>
     </div>
 </div>
 
 <footer>
-    Powered by Java • Tomcat • Docker • Linux
+    Java • Tomcat • Docker • Linux
 </footer>
 
 <script>
+let timer = null;
+
 async function loadMetrics() {
     try {
-        const response = await fetch("http://localhost:8080/hello/metrics");
-        const data = await response.json();
+        const res = await fetch("http://localhost:8080/hello/metrics");
+        const data = await res.json();
 
         document.getElementById("cpu").innerText = data.cpu + "%";
         document.getElementById("memory").innerText = data.memory + "%";
         document.getElementById("disk").innerText = data.disk;
+
+        document.getElementById("status").innerText = "🟢 Connected to backend";
     } catch (e) {
-        console.log("Backend not reachable");
+        document.getElementById("status").innerText = "🔴 Backend not reachable";
     }
 }
 
-loadMetrics();
-setInterval(loadMetrics, 2000);
+function startMonitoring() {
+    if (!timer) {
+        loadMetrics();
+        timer = setInterval(loadMetrics, 2000);
+        document.getElementById("status").innerText = "🟢 Monitoring started";
+    }
+}
+
+function stopMonitoring() {
+    clearInterval(timer);
+    timer = null;
+    document.getElementById("status").innerText = "🟡 Monitoring stopped";
+}
 </script>
 
 </body>
