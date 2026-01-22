@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>DockOps Hub</title>
- 
+
 <style>
 body {
     margin: 0;
@@ -115,9 +115,18 @@ footer {
 <script>
 let timer = null;
 
+// 🔴 FIXED: using VM IP instead of localhost
 async function loadMetrics() {
     try {
-        const res = await fetch("http://localhost:8080/hello/metrics");
+        const res = await fetch("http://10.0.2.15:8080/hello/metrics", {
+            method: "GET",
+            mode: "cors"
+        });
+
+        if (!res.ok) {
+            throw new Error("HTTP " + res.status);
+        }
+
         const data = await res.json();
 
         document.getElementById("cpu").innerText = data.cpu + "%";
@@ -126,6 +135,7 @@ async function loadMetrics() {
 
         document.getElementById("status").innerText = "🟢 Connected to backend";
     } catch (e) {
+        console.error(e);
         document.getElementById("status").innerText = "🔴 Backend not reachable";
     }
 }
